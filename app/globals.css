@@ -13,8 +13,8 @@
   --txt: #e4e7eb;
   --txt-2: #a8adb8;
   --txt-3: #6b7280;
-  --gold: #3b82f6;
-  --gold-2: #60a5fa;
+  --gold: #e9b949;
+  --gold-2: #f0c563;
   --accent: #06ffa5;
 }
 
@@ -27,8 +27,8 @@
   --txt: #1f2937;
   --txt-2: #4b5563;
   --txt-3: #9ca3af;
-  --gold: #3b82f6;
-  --gold-2: #60a5fa;
+  --gold: #e9b949;
+  --gold-2: #f0c563;
   --accent: #06ffa5;
 }
 
@@ -69,14 +69,14 @@ body {
 }
 
 .btn--primary {
-  background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+  background: linear-gradient(135deg, #e9b949 0%, #f0c563 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 15px rgba(233, 185, 73, 0.3);
 }
 
 .btn--primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 6px 20px rgba(233, 185, 73, 0.4);
 }
 
 .btn--secondary {
@@ -88,7 +88,7 @@ body {
 .btn--secondary:hover {
   border-color: var(--gold);
   color: var(--gold);
-  background: rgba(59, 130, 246, 0.05);
+  background: rgba(233, 185, 73, 0.05);
 }
 
 /* Section styling */
@@ -112,8 +112,8 @@ body {
 .tech-badge {
   display: inline-block;
   padding: 6px 12px;
-  background: rgba(59, 130, 246, 0.1);
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  background: rgba(233, 185, 73, 0.1);
+  border: 1px solid rgba(233, 185, 73, 0.2);
   border-radius: 6px;
   font-size: 0.875rem;
   color: var(--gold-2);

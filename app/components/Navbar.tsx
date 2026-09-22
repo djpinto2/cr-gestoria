@@ -5,7 +5,6 @@ import { useState } from 'react';
 
 export default function Navbar() {
   const [isDark, setIsDark] = useState(true);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <header className="navbar sticky top-0 z-50 bg-[var(--bg)] border-b border-[var(--line)]">

@@ -6,7 +6,7 @@ export default function HowItWorks() {
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <video autoPlay muted loop playsInline preload="auto" className="absolute inset-0 w-full h-full object-cover z-10 opacity-20">
-          <source src="/img y videos/fondo-web (1).mp4" type="video/mp4" />
+          <source src="/img y videos/fondo-web.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 z-20 pointer-events-none" style={{
           background: 'linear-gradient(180deg, var(--bg-2) 0%, rgba(8,10,16,.68) 20%, rgba(8,10,16,.68) 80%, var(--bg-2) 100%), radial-gradient(900px 420px at 50% 45%, rgba(233,185,73,.10), transparent 70%)'

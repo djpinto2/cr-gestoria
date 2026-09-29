@@ -28,7 +28,7 @@ export default function Hero() {
           poster="/img y videos/poster.jpg"
           className="absolute inset-0 w-full h-full object-cover z-10 opacity-90"
         >
-          <source src="/img y videos/fondo-web (1).mp4" type="video/mp4" />
+          <source src="/img y videos/fondo-web.mp4" type="video/mp4" />
         </video>
 
         {/* Overlay gradients */}

@@ -129,6 +129,10 @@ header.nav.solid{background:rgba(8,10,16,.82);backdrop-filter:blur(18px) saturat
   font-size:13px;font-weight:600;color:var(--gold-2);letter-spacing:.01em;margin-bottom:26px;
 }
 .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 0 rgba(233,185,73,.7);animation:pulse 2.2s infinite}
+@media (max-width:760px){
+  header.nav.solid{backdrop-filter:none;background:rgba(8,10,16,.95)}
+  .btn-ghost,.tchip{backdrop-filter:none}
+}
 @keyframes pulse{70%{box-shadow:0 0 0 9px rgba(233,185,73,0)}100%{box-shadow:0 0 0 0 rgba(233,185,73,0)}}
 .hero h1{font-size:clamp(2.4rem,6.2vw,4.4rem);font-weight:800;margin-bottom:22px}
 .hero h1 em{font-style:normal;background:linear-gradient(120deg,var(--gold-2),var(--gold) 55%,#C9922B);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -145,7 +149,7 @@ header.nav.solid{background:rgba(8,10,16,.82);backdrop-filter:blur(18px) saturat
 
 /* ============ VIDEO DE FONDO REUTILIZABLE ============ */
 .vid-bg{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:var(--bg-2)}
-.vid-bg video{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;opacity:.9;filter:contrast(1.03)}
+.vid-bg video{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;opacity:.9}
 .vid-bg::after{
   content:'';position:absolute;inset:0;z-index:2;
   background:
@@ -405,7 +409,7 @@ footer .vid-bg::after{background:linear-gradient(180deg,rgba(8,10,16,.72),rgba(8
     <div class="fallback"></div>
     <video autoplay muted loop playsinline preload="auto" poster="img%20y%20videos/poster.jpg">
       <source src="img%20y%20videos/fondo-web.mp4" type="video/mp4">
-      <source src="img%20y%20videos/fondo.mp4" type="video/mp4">
+      
     </video>
   </div>
   <div class="hero-glow"></div>
@@ -458,7 +462,7 @@ footer .vid-bg::after{background:linear-gradient(180deg,rgba(8,10,16,.72),rgba(8
 
 <!-- ================= CÓMO FUNCIONA ================= -->
 <section id="como" class="has-vid" style="border-block:1px solid var(--line)">
-  <div class="vid-bg"><video autoplay muted loop playsinline preload="auto" poster="img%20y%20videos/poster.jpg"><source src="img%20y%20videos/fondo-web.mp4" type="video/mp4"><source src="img%20y%20videos/fondo.mp4" type="video/mp4"></video></div>
+  <div class="vid-bg"><video autoplay muted loop playsinline preload="none" poster="img%20y%20videos/poster.jpg"><source src="img%20y%20videos/fondo-web.mp4" type="video/mp4"></video></div>
   <div class="wrap">
     <div class="sec-head rv">
       <span class="kicker">Cómo funciona</span>
@@ -523,7 +527,7 @@ footer .vid-bg::after{background:linear-gradient(180deg,rgba(8,10,16,.72),rgba(8
 <section style="padding-top:0">
   <div class="wrap">
     <div class="cta-band rv">
-      <div class="vid-bg"><video autoplay muted loop playsinline preload="auto" poster="img%20y%20videos/poster.jpg"><source src="img%20y%20videos/fondo-web.mp4" type="video/mp4"><source src="img%20y%20videos/fondo.mp4" type="video/mp4"></video></div>
+      <div class="vid-bg"><video autoplay muted loop playsinline preload="none" poster="img%20y%20videos/poster.jpg"><source src="img%20y%20videos/fondo-web.mp4" type="video/mp4"></video></div>
       <h2>¿Tenés dudas antes de empezar?</h2>
       <p>Contanos tu caso y te decimos exactamente qué trámite necesitás, cuánto sale y cuánto tarda. La consulta es sin cargo.</p>
       <div class="hero-btns">
@@ -596,7 +600,7 @@ footer .vid-bg::after{background:linear-gradient(180deg,rgba(8,10,16,.72),rgba(8
 
 <!-- ================= FOOTER ================= -->
 <footer class="has-vid">
-  <div class="vid-bg"><video autoplay muted loop playsinline preload="auto" poster="img%20y%20videos/poster.jpg"><source src="img%20y%20videos/fondo-web.mp4" type="video/mp4"><source src="img%20y%20videos/fondo.mp4" type="video/mp4"></video></div>
+  <div class="vid-bg"><video autoplay muted loop playsinline preload="none" poster="img%20y%20videos/poster.jpg"><source src="img%20y%20videos/fondo-web.mp4" type="video/mp4"></video></div>
   <div class="wrap">
     <div class="f-grid">
       <div>
@@ -1005,17 +1009,22 @@ function animarNumeros(){
 }
 animarNumeros();
 
-/* ---------- Videos de fondo: forzar reproducción ---------- */
-function playVideos(){
-  $$('video').forEach(v=>{
-    v.muted=true; v.playsInline=true;
-    const p=v.play();
-    if(p&&p.catch) p.catch(()=>{});
-  });
-}
-playVideos();
-addEventListener('load',playVideos);
-['click','touchstart','scroll'].forEach(ev=>addEventListener(ev,playVideos,{once:true,passive:true}));
+/* ---------- Videos de fondo: reproducir solo los visibles ---------- */
+// Cuatro videos a la vez traban el scroll en celulares: cada uno corre
+// solo mientras está en pantalla y los de abajo se cargan al acercarse.
+const vids=$$('video');
+const visibles=new Set();
+const play=v=>{v.muted=true;v.playsInline=true;const p=v.play();if(p&&p.catch)p.catch(()=>{});};
+const vio=new IntersectionObserver(es=>es.forEach(e=>{
+  const v=e.target;
+  if(e.isIntersecting){visibles.add(v);if(v.preload==='none')v.preload='auto';play(v);}
+  else{visibles.delete(v);v.pause();}
+}),{rootMargin:'200px 0px'});
+vids.forEach(v=>vio.observe(v));
+// Modo ahorro de batería: arrancar con la primera interacción
+const desbloquear=()=>visibles.forEach(play);
+['click','touchend','keydown'].forEach(ev=>addEventListener(ev,desbloquear,{passive:true}));
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)desbloquear();});
 // Si el archivo no carga, avisamos en consola con la ruta exacta
 $$('video source').forEach(s=>s.addEventListener('error',()=>{
   console.warn('No se pudo cargar el video de fondo. Verificá que exista:',s.getAttribute('src'));
